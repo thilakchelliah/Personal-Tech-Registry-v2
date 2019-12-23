@@ -14,8 +14,8 @@ var jwt = require('jsonwebtoken');
 //var localport = process.env.PORT != undefined ? process.env.PORT : 4500;
 
 
-var localport = process.env.PORT || 8080
-var localIp = process.env.IP || '127.0.0.1'
+var localport = process.env.OPENSHIFT_NODEJS_PORT || 8080
+var localIp = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 console.log(localIp);
 console.log(localport);
 
@@ -50,6 +50,10 @@ var apiRouteSecured = require('./routes/apiRoutesSecured');
 var middleWare = require('./middleware/JSWMiddleware');
 
 var app = express();
+
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname + 'public/index.html'));
+});
 
 
 app.use(cors())

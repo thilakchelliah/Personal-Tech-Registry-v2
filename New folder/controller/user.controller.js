@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-    bcrypt = require('bcryptjs');
+    bcrypt = require('bcrypt'),
     jwt = require('jsonwebtoken'),
     User = mongoose.model('User');
 

@@ -1,4 +1,5 @@
 var express = require('express') ;
+var cors = require('cors')
 var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -10,12 +11,11 @@ var cors = require('cors')
 
 global.config = require('./config');
 var jwt = require('jsonwebtoken');
-//var localIp = process.env.IP != undefined ? process.env.IP : "localhost";
-//var localport = process.env.PORT != undefined ? process.env.PORT : 4500;
+var localIp = process.env.IP != undefined ? process.env.IP : "localhost";
+var localport = process.env.PORT != undefined ? process.env.PORT : 4500;
 
 
-var localport = process.env.PORT || 8080
-var localIp = process.env.IP || '127.0.0.1'
+
 console.log(localIp);
 console.log(localport);
 
@@ -71,6 +71,9 @@ app.use(function(req, res, next) {
 app.use('/api', apiRouteOpen);
 app.use('/apiS', middleWare, apiRouteSecured);
 
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname + 'public/index.html'));
+});
 
 
 // catch 404 and forward to error handler
