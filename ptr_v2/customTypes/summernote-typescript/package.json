@@ -1,0 +1,54 @@
+{
+  "_from": "summernote-typescript",
+  "_id": "summernote-typescript@0.8.9",
+  "_inBundle": false,
+  "_integrity": "sha512-IuNkmOATyOrIqSQepiwDfb2bBd76rLlmv8ZIjkh0U83zJd7ahQvMvtL3fhl3dvM0xecLY8C7dIRY5C3By1Td6w==",
+  "_location": "/summernote-typescript",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "summernote-typescript",
+    "name": "summernote-typescript",
+    "escapedName": "summernote-typescript",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/summernote-typescript/-/summernote-typescript-0.8.9.tgz",
+  "_shasum": "fd9944a5c8d21f64628b08ec056f0eff19067d95",
+  "_spec": "summernote-typescript",
+  "_where": "F:\\Personal Works\\MyTechRegistry\\ptr_v2",
+  "author": {
+    "name": "Eman Development & Design"
+  },
+  "bugs": {
+    "url": "https://github.com/eman1986/TypeScript-Summernote/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "TypeScript definition for summernote",
+  "files": [
+    "summernote"
+  ],
+  "homepage": "https://github.com/eman1986/TypeScript-Summernote",
+  "keywords": [
+    "typescript",
+    "summernote"
+  ],
+  "license": "MIT",
+  "main": "summernote/summernote.d.ts",
+  "name": "summernote-typescript",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/eman1986/TypeScript-Summernote.git"
+  },
+  "scripts": {
+    "test": "null"
+  },
+  "version": "0.8.9"
+}

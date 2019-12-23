@@ -1,0 +1,15 @@
+<div class="col-lg-12">
+    <div class="card-deck">
+        <div class="card col-lg-12 px-0 mb-4">
+            <div class="card-body">
+                <h5 class="card-title">User List</h5>
+                <div class="table-responsive">
+                    <app-grid [gdId]="'userGrid'" [gridData]="'apiS/User/FetchAll'" [gdType]="'URL'"
+                        [coloumnData]="'userGrid'">                                         
+                    </app-grid>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

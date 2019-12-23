@@ -1,0 +1,6 @@
+<div class='tag-input-ctn'>
+  <div class='input-tag' *ngFor="let tag of TagArray;let idx = index">{{tag}}
+    <div class='delete-tag' (click)='deleteTag(idx)'>&times;</div>
+  </div>
+  <input type='text' [ngStyle]="{'width': inputWidth}" [(ngModel)]='tagText' placeholder='{{placeholder}}' class="tagInput" />
+</div>
