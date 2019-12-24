@@ -1,3 +1,4 @@
+var fallback = require('express-history-api-fallback')
 var express = require('express') ;
 var path = require('path');
 var logger = require('morgan');
@@ -14,8 +15,8 @@ var jwt = require('jsonwebtoken');
 //var localport = process.env.PORT != undefined ? process.env.PORT : 4500;
 
 
-var localport = process.env.PORT || 8080
-var localIp = process.env.IP || '127.0.0.1'
+var localport = process.env.PORT || 4200
+var localIp = process.env.IP || '0.0.0.0'
 console.log(localIp);
 console.log(localport);
 
@@ -67,6 +68,10 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+//var root = __dirname + '/public'
+//app.use(express.static(root))
+//app.use(fallback('index.html', { root: root }))
 
 app.use('/api', apiRouteOpen);
 app.use('/apiS', middleWare, apiRouteSecured);
