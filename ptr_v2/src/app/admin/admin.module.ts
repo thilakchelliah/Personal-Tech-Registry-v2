@@ -7,15 +7,24 @@ import { SharedModule } from '../shared/shared.module'
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 import { LoginComponent } from './login/login.component';
-import { HTTP_INTERCEPTORS  } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiInterceptorService } from './interceptor/api-interceptor.service';
 import { BlogManagerComponent } from './widgets/blog-manager/blog-manager.component';
 import { TutManagerComponent } from './widgets/tut-manager/tut-manager.component';
 import { UserManagerComponent } from './widgets/user-manager/user-manager.component';
 import { BlogEditorComponent } from './widgets/blog-editor/blog-editor.component';
+import { BlogPostFullComponent } from './widgets/blog-post-full/blog-post-full.component';
 
 @NgModule({
-  declarations: [AdminComponent, LoginComponent, BlogManagerComponent, TutManagerComponent, UserManagerComponent, BlogEditorComponent],
+  declarations: [AdminComponent,
+    LoginComponent,
+    BlogManagerComponent,
+    TutManagerComponent,
+    UserManagerComponent,
+    BlogEditorComponent,
+    BlogPostFullComponent
+
+  ],
   imports: [
     CommonModule,
     AdminRoutingModule,
@@ -23,6 +32,10 @@ import { BlogEditorComponent } from './widgets/blog-editor/blog-editor.component
     SharedModule,
     HttpClientModule
   ],
+  exports: [
+    BlogPostFullComponent
+  ],
+  entryComponents: [BlogPostFullComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -31,4 +44,4 @@ import { BlogEditorComponent } from './widgets/blog-editor/blog-editor.component
     }
   ]
 })
-export class AdminModule {}
+export class AdminModule { }

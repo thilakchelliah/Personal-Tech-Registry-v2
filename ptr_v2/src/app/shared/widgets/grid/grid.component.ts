@@ -1,15 +1,27 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+    Component, OnInit, Input, ElementRef,
+    ChangeDetectorRef,
+    ComponentFactoryResolver,
+    ViewContainerRef,
+    ViewChild,
+    ViewEncapsulation,
+    ComponentRef
+} from '@angular/core';
 import { ApiCallerService } from '../../service/api-caller.service';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { User } from 'src/app/model/user';
 import { stringify } from '@angular/compiler/src/util';
+import { BlogPostFullComponent } from '../../../admin/widgets/blog-post-full/blog-post-full.component'
+declare var $: any;
+declare var bootbox: any;
 
 
 
 @Component({
     selector: 'app-grid',
     templateUrl: './grid.component.html',
-    styleUrls: ['./grid.component.css']
+    styleUrls: ['./grid.component.css'],
+    encapsulation: ViewEncapsulation.None
 })
 export class GridComponent implements OnInit {
 
@@ -18,24 +30,32 @@ export class GridComponent implements OnInit {
     @Input() gdType: string;
     @Input() coloumnData: string;
     @Input() ver: string;
+
+    @ViewChild('placeholder', { read: ViewContainerRef, static: false }) vref: ViewContainerRef;
     tbodyContent: string;
+    showOrHideLoader: string;
+    modalShowOrHide: string;
+    compRef: any;
     globalColData: any = {
         userGrid: [{ 'title': 'User Name', 'data': 'username' }, { 'title': 'Email', 'data': 'email' }],
-        blogGrid: [{ 'title': 'Post Title', 'data': 'title' }, { 'title': 'Preview', 'data': 'previewText' }, { 'title': 'Related Tags', 'data': 'tagData' },
-        {
-            'title': 'Preview',
-            'data': 'urlId',
-            "render": function (data, type, row, meta) {
-                return '<button ng-click="buttonEvent(&quot;blogGridPreview&quot;,&quot;' + data + '&quot;)">Preview</Button>';
+        blogGrid: [
+            { 'title': 'Title', 'data': 'title' },
+            { 'title': 'Preview', 'data': 'previewText' },
+            { 'title': 'Related Tags', 'data': 'tagData' },
+            {
+                'title': 'Preview',
+                'data': 'urlId',
+                "render": function (data, row) {
+                    return '<button clickEvent="blogGridPreview,' + row[data] + '">Preview</Button>';
+                }
+            },
+            {
+                'title': 'Delete',
+                'data': '_id',
+                "render": function (data, row) {
+                    return '<button clickEvent="blogRowDelete,' + row[data] + '">Delete</Button>';
+                }
             }
-        },
-        {
-            'title': 'Delete',
-            'data': '_id',
-            "render": function (data, type, row, meta) {
-                return '<button ng-click="buttonEvent(&quot;blogRowDelete&quot;,&quot;' + data + '&quot;)">Delete</Button>';
-            }
-        }
         ],
         tutorialGrid: [{ 'title': 'Tutorial Title', 'data': 'title' }, { 'title': 'Tutorial Link', 'data': 'tutorialLink' },
         { 'title': 'URL ID', 'data': 'urlFriendlyTitle' },
@@ -43,52 +63,35 @@ export class GridComponent implements OnInit {
         {
             'title': 'Preview',
             'data': 'urlFriendlyTitle',
-            "render": function (data, type, row, meta) {
-                return '<button ng-click="buttonEvent(&quot;tutorialGridPreview&quot;,&quot;' + data + '&quot;)">Preview</Button>';
+            "render": function (data, row) {
+                return '<button clickEvent="tutorialGridPreview,' + row[data] + '">Preview</Button>';
             }
         },
         {
             'title': 'Delete',
             'data': '_id',
-            "render": function (data, type, row, meta) {
-                return '<button ng-click="buttonEvent(&quot;tutorialRowDelete&quot;,&quot;' + data + '&quot;)">Delete</Button>';
+            "render": function (data, row) {
+                return '<button clickEvent="tutorialRowDelete,' + row[data] + '">Delete</Button>';
             }
         }
         ]
     };
 
-    constructor(private apiCallerService: ApiCallerService) { }
-
+    constructor(private apiCallerService: ApiCallerService,
+        private elRef: ElementRef,
+        private chRef: ChangeDetectorRef,
+        private componentFactoryResolver: ComponentFactoryResolver,
+        private viewContainerRef: ViewContainerRef) { }
+    //Life cycle hooks
     ngOnInit() {
-        this.apiCallerService.callGetUrlTofetch(this.gridData).subscribe((res) => {
-            console.log(res);
-            var userList = res as Array<any>;
-            var htmlOutput = "";
-            htmlOutput += "<thead><tr>";
-            this.globalColData[this.coloumnData].forEach(v => {
-                console.log();
-                htmlOutput += "<th>" + v.title + "</th>";
-            });
-            htmlOutput += "</tr></thead>";
-            userList.forEach(m => {
 
-                htmlOutput += "<tr>";
-                this.globalColData[this.coloumnData].forEach(t => {
-                    console.log();
-                    htmlOutput += "<td>" + m[t.data] + "</td>";
-                });
-                htmlOutput += "</tr>";
-            });
-            this.tbodyContent = htmlOutput;
 
-        },
-            (error) => {
-                console.log(error);
-            }
-        );
-
+        this.GridPopulateAndRefresh();
+        this.showOrHideLoader = "none";
     }
     ngAfterViewInit(): void {
+
+        //Add event handler each.
 
     }
 
@@ -96,9 +99,120 @@ export class GridComponent implements OnInit {
 
     }
 
+    //Other method
+    GridPopulateAndRefresh() {
 
-    refreshGrid(){
-        this.ngOnInit();
+        var gridId: string = this.apiCallerService.uuidv4();
+        this.apiCallerService.commonGetforOpenApi(this.gridData).subscribe((res) => {
+            console.log(res);
+            var userList = res as Array<any>;
+            var htmlOutput = "";
+            htmlOutput += "<thead><tr>";
+            this.globalColData[this.coloumnData].forEach(v => {
+                console.log();
+
+                htmlOutput += "<th>" + v.title + "</th>";
+            });
+            htmlOutput += "</tr></thead>";
+            userList.forEach(m => {
+
+                htmlOutput += "<tr>";
+                this.globalColData[this.coloumnData].forEach(t => {
+                    if (t.render != undefined) {
+                        var curString = t.render(t.data, m);
+                        htmlOutput += "<td>" + curString + "</td>";
+                    }
+                    else {
+                        htmlOutput += "<td>" + m[t.data] + "</td>";
+                    }
+                });
+                htmlOutput += "</tr>";
+            });
+            this.tbodyContent = htmlOutput;
+            this.chRef.detectChanges();
+
+            let elementList: Element[] = this.elRef.nativeElement.querySelectorAll('button');
+            elementList.forEach(t => {
+                var parameters = t.getAttribute("clickEvent").split(",");
+                t.addEventListener('click', this.buttonEvent.bind(this, parameters[0], parameters[1]));
+            });
+        },
+            (error) => {
+                console.log(error);
+            }
+        );
+
+    }
+    buttonEvent(eventFor: string, Id: string) {
+        this.showOrHideLoader = "block";
+
+        this.chRef.detectChanges();
+        switch (eventFor) {
+            case "blogGridPreview":
+
+
+                this.showOrHideLoader = "none";
+                const componentFactory = this.componentFactoryResolver.resolveComponentFactory(BlogPostFullComponent);
+                this.compRef = this.vref.createComponent(componentFactory, 0);
+                this.compRef.instance.urlId = Id;
+                $('#gridModal').modal('show');
+
+                break;
+
+            case "blogRowDelete":
+                this.apiCallerService.deleteBlogRow({ id: Id }).subscribe(
+                    resp => {
+
+                        this.GridPopulateAndRefresh();
+                        this.showOrHideLoader = "none";
+                    },
+                    err => {
+                        alert(err);
+                        this.showOrHideLoader = "none";
+                    }
+                );
+                break;
+            case "tutorialGridPreview":
+                //    <blog-post-full url-id="' + data + '"></blog-post-full>
+                // var procDialog = bootbox.dialog({
+                //     title: 'Blog Preview',
+                //     message: $(clonedElement),
+                //     closeButton: false,
+                //     className: 'ModalPreviewCls',
+                //     buttons: {
+                //         ok: {
+                //             label: "Ok",
+                //             className: 'btn-info',
+                //             callback: function () {
+                //                 procDialog.modal('hide');
+                //             }
+                //         }
+                //     }
+                // });
+                this.showOrHideLoader = "none";
+
+                break;
+            case "tutorialRowDelete":
+                this.apiCallerService.deleteTutorialRow({ id: Id }).subscribe(
+                    res => {
+                        this.GridPopulateAndRefresh();
+                        this.showOrHideLoader = "none";
+                    },
+                    err => {
+                        alert(err);
+                        this.showOrHideLoader = "none";
+                    }
+
+                );
+                break;
+        }
+
+    }
+    destroyModal(){
+        this.compRef.destroy()
+    }
+    refreshGrid() {
+        this.GridPopulateAndRefresh();
     }
 
 

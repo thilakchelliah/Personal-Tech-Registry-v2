@@ -16,7 +16,7 @@ export class TaggerComponent implements OnInit {
   autocomplete: boolean = false;
   curElm: any;
   @Input() placeholderInput: string;
-  @Output() sendTagData = new EventEmitter<string[]>();
+  @Output() sendTagData = new EventEmitter();
 
 
   public get tagText(): string {
@@ -109,7 +109,8 @@ export class TaggerComponent implements OnInit {
   };
 
   emitDataToAllParent() {
-    this.sendTagData.emit(this.tagArray());
+   var result= this.tagArray()
+    this.sendTagData.emit(result);
   };
 
 

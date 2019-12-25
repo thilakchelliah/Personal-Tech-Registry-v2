@@ -4,7 +4,8 @@ import { GridComponent } from '../../../shared/widgets/grid/grid.component'
 @Component({
   selector: 'app-blog-manager',
   templateUrl: './blog-manager.component.html',
-  styleUrls: ['./blog-manager.component.css']
+  styleUrls: ['./blog-manager.component.css'],
+  providers:[GridComponent]
 })
 export class BlogManagerComponent implements OnInit {
 

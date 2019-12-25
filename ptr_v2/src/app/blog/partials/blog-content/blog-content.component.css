@@ -10,13 +10,20 @@
     font-family: 'Titillium Web', sans-serif;
 }
 
-.blog-wrapper {
-    padding-right: 25px;
-    font-family: 'Open Sans Condensed', sans-serif;
-    
+.blog-page-head {
+    font-family: 'Varela Round', sans-serif;
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    color: #009EFF;
 }
 
 
+
+.blog-wrapper {
+    padding-right: 25px;
+    font-family: 'Open Sans Condensed', sans-serif;
+}
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
@@ -28,7 +35,6 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #ffffff;
     padding: 0 20px;
 }
-
 
 .sidebar {
     padding-left: 10px;
@@ -238,8 +244,6 @@ textarea.form-control {
     margin-top: 50px;
 }
 
-
-
 .home-center {
     display: table;
     width: 100%;
@@ -250,7 +254,6 @@ textarea.form-control {
     display: table-cell;
     vertical-align: middle;
 }
-
 
 /*======================
     5.Responsive
@@ -344,8 +347,6 @@ textarea.form-control {
 }
 
 /*common link styles !!!YOU NEED THEM*/
-
-
 
 .effect a {
     text-decoration: none !important;

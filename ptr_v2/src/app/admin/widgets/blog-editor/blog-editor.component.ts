@@ -17,8 +17,8 @@ export class BlogEditorComponent implements OnInit {
   buttonText: string;
   title = "";
   previewText = "";
-  @ViewChild(TaggerComponent, {static: false}) tagger: TaggerComponent;
-  constructor(private blogManagerService: BlogManagerService,private bmc: BlogManagerComponent) { }
+  @ViewChild(TaggerComponent, { static: false }) tagger: TaggerComponent;
+  constructor(private blogManagerService: BlogManagerService, private bmc: BlogManagerComponent) { }
 
   ngOnInit() {
     this.buttonText = this.functionType === "add" ? "Add New " : "Update ";
@@ -31,15 +31,20 @@ export class BlogEditorComponent implements OnInit {
       });
     });
   }
+  updateTaggerArray(tagArray: any) {
+    this.tagArray = tagArray;
+  }
   addOrUpdatePost(event: any) {
     var tokenObj: any = localStorage.getItem('currentUser');
     var content = $("#summernote").summernote('code');
+    var blogPicSrc = $("#blogPic").attr("src");
     var data = {
       title: this.title,
       htmlContent: content,
       userId: tokenObj.userId,
-      tagData: this.tagArray.join(','),
-      previewText: this.previewText
+      tagData: this.tagger.tagArray().join(','),
+      previewText: this.previewText,
+      blogPic: blogPicSrc
     };
     var saveDialog = bootbox.dialog({
       title: 'Please Wait!',
@@ -62,13 +67,6 @@ export class BlogEditorComponent implements OnInit {
         this.previewText = "";
         this.tagger.deleteAllTags();
         this.bmc.refreshGrid();
-        //var dtable = $("#blogGrid").DataTable();
-        // sharedService.callGetUrlTofetch('/apiS/Blog/FetchAll').then(function (resp) {
-        //   dtable.clear();
-        //   dtable.rows.add(resp.data);
-        //   dtable.draw();
-        // });
-
       },
       err => {
 
@@ -77,4 +75,46 @@ export class BlogEditorComponent implements OnInit {
       }
     );
   };
+  //Image uploader function 
+  processFile(imageInput: any) {
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    var img = new Image();
+    reader.addEventListener('load', (event: any) => {
+      img.onload = function () {
+        var canvas = document.createElement("canvas");
+        var context = canvas.getContext("2d");
+
+        if (img.height > 400) {
+          canvas.width = img.width / 10;
+          canvas.height = img.height / 10;
+        } else {
+          canvas.width = img.width;
+          canvas.height = img.height;
+        }
+        context.drawImage(img,
+          0,
+          0,
+          img.width,
+          img.height,
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+
+        $("#blogPic").attr("src", canvas.toDataURL());
+      }
+      img.src = event.target.result;
+
+
+
+    });
+    reader.readAsDataURL(file);
+  }
+  uploadImage() {
+    $("input[id='my_file']").click();
+  }
+
 }

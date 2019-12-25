@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiCallerService } from '../../../shared/service/api-caller.service'
+import * as moment from 'moment';
 declare var $: any;
+
 var blogObject = function (title, previewText, User, createdDate, urlId, tagData) {
   return {
     title: title,
@@ -20,15 +23,32 @@ var blogObject = function (title, previewText, User, createdDate, urlId, tagData
 
 export class BlogCardComponent implements OnInit {
 
-  blogCardList:any = [];
-  constructor() { }
+  blogCardList: any = [];
+  constructor(private apiCallerService: ApiCallerService) { }
 
   ngOnInit() {
-    var curObj= this;
-    $(new Array(15)).each(function () {
-      debugger;
-      curObj.blogCardList.push({});
-    });
+    var curObj = this;
+    this.apiCallerService.commonGetforOpenApi("/api/blog/fetchall/").subscribe(
+      (res) => {
+        console.log(res);
+        $(res).each(function () {
+          curObj.blogCardList.push({
+            blgImgSrc: this.blgImgSrc == "" || this.blgImgSrc == undefined ? "/assets/images/default-image.jpg" : this.blgImgSrc,
+            title: this.title,
+            blogPic: this.blogPic,
+            createdDate: moment(this.createdDate, moment.ISO_8601).format('MM/DD/YYYY'),
+            previewText: this.previewText,
+            user: this.username,
+            date: this.createdDate,
+            urlId: this.urlId,
+            tagData: this.tagData.split(",")
+          });
+        });
+      },
+      (err) => {
+        debugger;
+      })
+
   }
 
 }

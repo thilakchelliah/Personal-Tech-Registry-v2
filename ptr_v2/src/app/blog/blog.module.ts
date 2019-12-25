@@ -15,7 +15,7 @@ import { BlogCardComponent } from './widget/blog-card/blog-card.component';
     BlogComponent,
     BlogContentComponent,
     BlogCardComponent
-    ],
+  ],
   imports: [
     CommonModule,
     BlogRoutingModule

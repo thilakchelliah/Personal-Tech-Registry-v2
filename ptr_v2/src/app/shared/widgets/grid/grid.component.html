@@ -1,7 +1,33 @@
 <table class="display table table-striped" width="100%">
     <ng-content></ng-content>
-    <tbody [innerHTML]="tbodyContent">
+    <tbody [innerHTML]="tbodyContent | sanitizeHtml" class="gridTbody">
 
     </tbody>
 
 </table>
+<app-loader [showOrHide]="showOrHideLoader"></app-loader>
+
+<!-- The Modal -->
+<div class="modal fade" id="gridModal" >
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Preview Modal</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="destroyModal()">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body" #placeholder>
+          
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="destroyModal()">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>

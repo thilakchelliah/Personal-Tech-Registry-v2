@@ -17,17 +17,17 @@ export class LoginService {
 
 
   public createUser(data: User) {
-    return this.httpClient.post(this.apiUrl + 'api/User/Create', data);
+    return this.httpClient.post(this.apiUrl + '/api/User/Create', data);
   };
   public checkValidUserName(userName: string) {
-    return this.httpClient.get(this.apiUrl + 'api/User/checkUser?userName=' + userName);
+    return this.httpClient.get(this.apiUrl + '/api/User/checkUser?userName=' + userName);
   };
   public checkValidEmail(email: string) {
-    return this.httpClient.get(this.apiUrl + 'api/User/CheckEmail?email=' + email);
+    return this.httpClient.get(this.apiUrl + '/api/User/CheckEmail?email=' + email);
   };
   public validateAndLogin(userName: string, password: string): Observable<any>{
     const params = new HttpParams({ fromString: 'username=' + userName + '&password=' + password });
-    return this.httpClient.get(this.apiUrl + 'api/User/CheckSignUpCred',{responseType:"json",params});
+    return this.httpClient.get(this.apiUrl + '/api/User/CheckSignUpCred',{responseType:"json",params});
   };
 }
 

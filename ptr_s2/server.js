@@ -15,8 +15,9 @@ var jwt = require('jsonwebtoken');
 //var localport = process.env.PORT != undefined ? process.env.PORT : 4500;
 
 
-var localport = process.env.PORT || 4200
-var localIp = process.env.IP || '0.0.0.0'
+var localport = process.env.PORT || 4500
+var localIp = process.env.IP ||"localhost"
+// '0.0.0.0'
 console.log(localIp);
 console.log(localport);
 
@@ -38,6 +39,8 @@ var storage = multer.diskStorage({
 global.multerUpload = multer({ storage: storage });
 
 
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 mongoose.connect("mongodb://thilaktest:test123@ds143070.mlab.com:43070/tech_registry_db",{ useNewUrlParser: true }, function (err, db) {
   if (err) {
     return console.dir(err);

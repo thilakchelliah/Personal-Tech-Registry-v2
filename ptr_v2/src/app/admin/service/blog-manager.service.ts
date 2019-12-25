@@ -11,10 +11,18 @@ export class BlogManagerService {
   constructor(private http: HttpClient) { }
 
   CreateBlogPost(data: any) {
-    return this.http.post(this.apiUrl + 'apiS/Blog/Create', data);
+    return this.http.post(this.apiUrl + '/apiS/Blog/Create', data);
   };
   DeleteBlogRow = function (id: string) {
-    return this.http.post(this.apiUrl + 'apiS/Blog/Delete', id);
+    return this.http.post(this.apiUrl + '/apiS/Blog/Delete', id);
   };
+  FetchBlogDetails = function(urlId:string) {
+    var config = {
+        params: {
+            urlId: urlId
+        }
+    };
+    return this.http.get(this.apiUrl +'/api/Blog/FetchOne', config);
+};
 
 }
