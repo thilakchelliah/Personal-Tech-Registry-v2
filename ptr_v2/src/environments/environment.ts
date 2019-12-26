@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serviceURL:'http://localhost:4500'
+  serviceURL:'https://thilakptrs2.run-us-west1.goorm.io'
   //serviceURL:'https://ptrs21-ptrs2.1d35.starter-us-east-1.openshiftapps.com'
 };
 

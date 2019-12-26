@@ -15,8 +15,8 @@ var jwt = require('jsonwebtoken');
 //var localport = process.env.PORT != undefined ? process.env.PORT : 4500;
 
 
-var localport = process.env.PORT || 4500
-var localIp = process.env.IP ||"localhost"
+var localport = process.env.PORT || 4200
+var localIp = process.env.IP ||"0.0.0.0"
 // '0.0.0.0'
 console.log(localIp);
 console.log(localport);
@@ -76,8 +76,21 @@ app.use(function(req, res, next) {
 //app.use(express.static(root))
 //app.use(fallback('index.html', { root: root }))
 
-app.use('/api', apiRouteOpen);
-app.use('/apiS', middleWare, apiRouteSecured);
+
+
+
+app.get('*', function(req, res, next) {
+  if (req.url === '/' || req.url === '/admin'){
+	  res.sendFile(path.join(__dirname, 'public/index.html'));
+  }
+	else if(req.url === "/api"){
+		app.use('/api', apiRouteOpen);
+	}
+	else if(req.url === "/apiS"){
+		app.use('/apiS', middleWare, apiRouteSecured);
+}
+ 
+});
 
 
 
