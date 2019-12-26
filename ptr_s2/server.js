@@ -15,7 +15,7 @@ var jwt = require('jsonwebtoken');
 //var localport = process.env.PORT != undefined ? process.env.PORT : 4500;
 
 
-var localport = process.env.PORT || 4500
+var localport = process.env.PORT || 4200
 var localIp = process.env.IP ||"localhost"
 // '0.0.0.0'
 console.log(localIp);
