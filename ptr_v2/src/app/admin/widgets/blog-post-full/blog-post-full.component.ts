@@ -15,23 +15,24 @@ export class BlogPostFullComponent implements OnInit {
   createdDate: string;
   tagData: string;
   htmlString: string;
+  user: string;
   constructor(private bms: BlogManagerService) { }
 
   ngOnInit() {
-    this.bms.FetchBlogDetails(this.urlId).subscribe(
-      (response) => {
+	this.bms.FetchBlogDetails(this.urlId).subscribe(
+	  (response) => {
 
-        this.title = response.title;
-        this.previewText = response.previewText;
-        //this.user = (response.user)[0].username;
-        this.createdDate = response.createdDate;
-        this.tagData = response.tagData;
-        this.htmlString = response.htmlString;
-      },
+		this.title = response.title;
+		this.previewText = response.previewText;
+		//this.user = (response.user)[0].username;
+		this.createdDate = response.createdDate;
+		this.tagData = response.tagData;
+		this.htmlString = response.htmlString;
+	  },
 
-      (err) => {
-        alert(err);
-      });
+	  (err) => {
+		alert(err);
+	  });
   };
 }
 
