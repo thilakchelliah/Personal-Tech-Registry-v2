@@ -16,9 +16,9 @@ export class AdminComponent implements OnInit {
     let authToken = JSON.parse(curObj);
     if (authToken) {
       this.authenticationService.verifyToken(authToken.token).subscribe(
-        res => {
-          if(res!="valid")
-          this.router.navigate(['/admin/login']);
+        (res: any) => {
+          if (res.message != "valid")
+            this.router.navigate(['/admin/login']);
         },
         err => {
           this.router.navigate(['/admin/login']);
