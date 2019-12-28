@@ -1,0 +1,50 @@
+<div class="col-12">
+
+    <!-- Post Content Column -->
+    <div class="row" style="width: 100%;">
+
+        <!-- Title -->
+        <h1 class="mt-4 blogTitleSpan">{{title}}</h1>
+
+        <!-- Author -->
+
+
+        <div class="details-wrapper">
+            <div class="clearfix entry-meta">
+                <ul>
+                    <li class="author"> <i class="fa fa-user"></i> <a
+                            href="https://demo.themeum.com/wordpress/prolog/?author=1" title="Posts by admin"
+                            rel="author">admin</a></li>
+
+                    <li class="publish-date"><i class="fa fa-calendar"></i><time class="entry-date"
+                            datetime="2014-08-12T07:35:55+00:00">{{createdDate}}</time></li>
+                    <!-- <li class="tag"><i class="fa fa-tags"></i>
+                                <a href="" rel="tag" *ngFor="let tagObj of blogCard.tagData">{{tagObj}}<span>,</span></a>
+                            </li> -->
+                    <li class="comments-link">
+                        <i class="fa fa-comments-o"></i> <a
+                            href="https://demo.themeum.com/wordpress/prolog/?p=44#comments">5 comments</a>
+                    </li>
+
+
+                </ul>
+            </div>
+
+        </div>
+
+
+        <!-- Post Content -->
+
+
+    </div>
+    <div class="row" style="width: 100%;">
+        <img [src]="blogPic" width="700" height="400"/>
+    </div>
+    <div class="row" style="width: 100%;">
+        <div class="post-summary" [innerHTML]="htmlString | sanitizeHtml"></div>
+    </div>
+
+    <div class="row" style="width: 100%;">
+        <app-disqus-comment style="width:100%;" identifier="currentPageUniqueId"></app-disqus-comment>
+    </div>
+</div>

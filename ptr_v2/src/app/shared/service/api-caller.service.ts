@@ -44,7 +44,6 @@ export class ApiCallerService {
 
   };
   public fetchAllTutorial = function (fd) {
-    debugger;
     return this.httpClient.post(this.apiUrl + '/apiS/Tutorial/Fetchs', fd, {
       withCredentials: true,
       headers: { 'Content-Type': undefined }
@@ -58,6 +57,15 @@ export class ApiCallerService {
       return v.toString(16);
     });
   }
+
+  FetchBlogDetails = function (urlId: string) {
+    var config = {
+      params: {
+        urlId: urlId
+      }
+    };
+    return this.httpClient.get(this.apiUrl + '/api/Blog/FetchOne', config);
+  };
 
 
 }

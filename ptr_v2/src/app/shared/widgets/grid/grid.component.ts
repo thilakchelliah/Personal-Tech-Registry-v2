@@ -11,7 +11,7 @@ import { ApiCallerService } from '../../service/api-caller.service';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { User } from 'src/app/model/user';
 import { stringify } from '@angular/compiler/src/util';
-import { BlogPostFullComponent } from '../../../admin/widgets/blog-post-full/blog-post-full.component'
+import { BlogPostFullComponent } from '../../widgets/blog-post-full/blog-post-full.component'
 declare var $: any;
 declare var bootbox: any;
 
@@ -40,20 +40,26 @@ export class GridComponent implements OnInit {
         userGrid: [{ 'title': 'User Name', 'data': 'username' }, { 'title': 'Email', 'data': 'email' }],
         blogGrid: [
             { 'title': 'Title', 'data': 'title' },
+            {
+                'title': 'Picture', 'data': 'blogPic',
+                "render": function (data, row) {
+                    return '<img src="' + row[data] + '" width="170" height="150">';
+                }
+            },
             { 'title': 'Preview', 'data': 'previewText' },
-            { 'title': 'Related Tags', 'data': 'tagData' },
+            { 'title': 'Tags', 'data': 'tagData' },
             {
                 'title': 'Preview',
                 'data': 'urlId',
                 "render": function (data, row) {
-                    return '<button clickEvent="blogGridPreview,' + row[data] + '">Preview</Button>';
+                    return '<button class="gridButtonDyn" clickEvent="blogGridPreview,' + row[data] + '">Preview</Button>';
                 }
             },
             {
                 'title': 'Delete',
                 'data': '_id',
                 "render": function (data, row) {
-                    return '<button clickEvent="blogRowDelete,' + row[data] + '">Delete</Button>';
+                    return '<button class="gridButtonDyn" clickEvent="blogRowDelete,' + row[data] + '">Delete</Button>';
                 }
             }
         ],
@@ -64,14 +70,14 @@ export class GridComponent implements OnInit {
             'title': 'Preview',
             'data': 'urlFriendlyTitle',
             "render": function (data, row) {
-                return '<button clickEvent="tutorialGridPreview,' + row[data] + '">Preview</Button>';
+                return '<button class="gridButtonDyn" clickEvent="tutorialGridPreview,' + row[data] + '">Preview</Button>';
             }
         },
         {
             'title': 'Delete',
             'data': '_id',
             "render": function (data, row) {
-                return '<button clickEvent="tutorialRowDelete,' + row[data] + '">Delete</Button>';
+                return '<button  class="gridButtonDyn" clickEvent="tutorialRowDelete,' + row[data] + '">Delete</Button>';
             }
         }
         ]
@@ -101,7 +107,7 @@ export class GridComponent implements OnInit {
 
     //Other method
     GridPopulateAndRefresh() {
-
+      
         var gridId: string = this.apiCallerService.uuidv4();
         this.apiCallerService.commonGetforOpenApi(this.gridData).subscribe((res) => {
             console.log(res);
@@ -131,13 +137,15 @@ export class GridComponent implements OnInit {
             this.tbodyContent = htmlOutput;
             this.chRef.detectChanges();
 
-            let elementList: Element[] = this.elRef.nativeElement.querySelectorAll('button');
+            let elementList: Element[] = this.elRef.nativeElement.querySelectorAll(".gridButtonDyn");
             elementList.forEach(t => {
                 var parameters = t.getAttribute("clickEvent").split(",");
                 t.addEventListener('click', this.buttonEvent.bind(this, parameters[0], parameters[1]));
             });
+            this.showOrHideLoader = "none";
         },
             (error) => {
+                this.showOrHideLoader = "none";
                 console.log(error);
             }
         );
@@ -208,11 +216,17 @@ export class GridComponent implements OnInit {
         }
 
     }
-    destroyModal(){
+    destroyModal() {
         this.compRef.destroy()
     }
-    refreshGrid() {
+    refreshGrid(url: string, colData: string) {
+        this.showOrHideLoader = "block";
+        this.tbodyContent="";
+        this.chRef.detectChanges();
+        this.gridData = url;
+        this.coloumnData = colData;
         this.GridPopulateAndRefresh();
+       
     }
 
 

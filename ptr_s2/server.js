@@ -59,9 +59,10 @@ var app = express();
 app.use(cors())
 // uncomment after placing your favicon in /public
 app.use(logger('dev'));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({
-  extended: false
+  extended: false,
+  limit: '50mb'
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -108,5 +109,3 @@ app.listen(localport);
 
 console.log('Server running at ' + localIp + ':' + localport);
 module.exports = app;
-
-;

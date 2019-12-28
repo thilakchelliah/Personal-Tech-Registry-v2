@@ -1,7 +1,7 @@
 <div class="card post-card" *ngFor="let blogCard of blogCardList">
     <div class="row no-gutters ">
         <div class="col-md-4" style="background: #868e96;">
-            <img src="{{blogCard.blogPic}}" class="card-img-top h-100" alt="...">
+            <img [src]="blogCard.blogPic" class="card-img-top h-100" alt="...">
         </div>
         <div class="col-md-8">
             <div class="card-body ">
@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="button-div">
-                        <button type="button " class="btn btn-primary blog-button">Read More <i
+                        <button type="button " class="btn btn-primary blog-button" routerLink="/blog/home/full/{{blogCard.urlId}}" >Read More <i
                                 class="fa fa-arrow-circle-right "></i></button>
                     </div>
 

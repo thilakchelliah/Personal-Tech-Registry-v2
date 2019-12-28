@@ -13,7 +13,7 @@ import { BlogManagerComponent } from './widgets/blog-manager/blog-manager.compon
 import { TutManagerComponent } from './widgets/tut-manager/tut-manager.component';
 import { UserManagerComponent } from './widgets/user-manager/user-manager.component';
 import { BlogEditorComponent } from './widgets/blog-editor/blog-editor.component';
-import { BlogPostFullComponent } from './widgets/blog-post-full/blog-post-full.component';
+
 
 @NgModule({
   declarations: [AdminComponent,
@@ -21,9 +21,7 @@ import { BlogPostFullComponent } from './widgets/blog-post-full/blog-post-full.c
     BlogManagerComponent,
     TutManagerComponent,
     UserManagerComponent,
-    BlogEditorComponent,
-    BlogPostFullComponent
-
+    BlogEditorComponent
   ],
   imports: [
     CommonModule,
@@ -32,10 +30,7 @@ import { BlogPostFullComponent } from './widgets/blog-post-full/blog-post-full.c
     SharedModule,
     HttpClientModule
   ],
-  exports: [
-    BlogPostFullComponent
-  ],
-  entryComponents: [BlogPostFullComponent],
+  
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

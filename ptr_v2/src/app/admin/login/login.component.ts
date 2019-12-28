@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
 
   }
   public ValidateAndLogin() {
-    debugger;
     this.showOrHideLoader = "block";
     var username = this.username;
     var password = this.password;

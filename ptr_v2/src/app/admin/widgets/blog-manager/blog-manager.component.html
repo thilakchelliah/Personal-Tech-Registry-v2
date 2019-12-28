@@ -1,32 +1,41 @@
 <div class="card">
-  <div class="card-header">
-      <ul class="nav nav-tabs card-header-tabs">
-          <li class="nav-item">
-              <a class="nav-link active" data-toggle="tab" data-target="#blogData" role="tab">Blog Data </a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" data-target="#blogManager" role="tab">Blog Manager</a>
-          </li>
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" data-target="#blogData" role="tab">Blog Data </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" data-target="#blogManager" role="tab" (click)="refreshGrid()">Blog
+                    Manager</a>
+            </li>
 
-      </ul>
-  </div>
-  <div class="tab-content">
-      <div class="card-block tab-pane fade show active" id="blogData">
-          <h4 class="card-title">New Blog Data</h4>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div class="card-block tab-pane fade show active" id="blogData">
+            <h4 class="card-title">New Blog Data</h4>
 
-          <app-blog-editor  ></app-blog-editor>
-          <!-- [functionType]="add" -->
-        
+            <app-blog-editor></app-blog-editor>
+            <!-- [functionType]="add" -->
 
-      </div>
-      <div class="card-block tab-pane fade" id="blogManager">
-          <h4 class="card-title">Blog Manager</h4>
-          <div class="table-responsive">
-                <app-grid id="blogGridWrapDir" [gdId]="'blogGrid'" [gridData]="'/apiS/Blog/FetchAll'" [gdType]="'URL'" [coloumnData]="'blogGrid'" ver="1">
-                    
+
+        </div>
+        <div class="card-block tab-pane fade" id="blogManager">
+            <div class="row">
+                <div class="col-6">
+                    <h4 class="card-title">Blog Manager</h4>
+                </div>
+                <div class="col-6 ">
+                    <button (click)="refreshGrid()" class="pull-right">
+                        <i class="fa fa-refresh" aria-hidden="true"></i></button></div>
+            </div>
+
+            <div class="table-responsive">
+                <app-grid id="blogGridWrapDir" [gdId]="'blogGrid'" [gridData]="'/apiS/Blog/FetchAll'" [gdType]="'URL'"
+                    [coloumnData]="'blogGrid'" ver="1">
+
                 </app-grid>
-          </div>
-      </div>
-  </div>
+            </div>
+        </div>
+    </div>
 </div>
-

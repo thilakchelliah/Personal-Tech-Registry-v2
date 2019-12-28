@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ViewChild} from '@angular/core';
 import { GridComponent } from '../../../shared/widgets/grid/grid.component'
 
 @Component({
@@ -8,13 +8,13 @@ import { GridComponent } from '../../../shared/widgets/grid/grid.component'
   providers:[GridComponent]
 })
 export class BlogManagerComponent implements OnInit {
-
-  constructor(private gc: GridComponent) { }
+  @ViewChild(GridComponent, { static: false }) gc: GridComponent;
+  constructor() { }
 
   ngOnInit() {
   }
   refreshGrid(){
-    this.gc.refreshGrid();
+    this.gc.refreshGrid("/apiS/Blog/FetchAll","blogGrid");
   }
 
 }

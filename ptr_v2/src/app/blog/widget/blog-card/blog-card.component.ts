@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallerService } from '../../../shared/service/api-caller.service'
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import * as moment from 'moment';
 declare var $: any;
 
@@ -24,8 +25,7 @@ var blogObject = function (title, previewText, User, createdDate, urlId, tagData
 export class BlogCardComponent implements OnInit {
 
   blogCardList: any = [];
-  constructor(private apiCallerService: ApiCallerService) { }
-
+  constructor(private apiCallerService: ApiCallerService, protected sanitizer: DomSanitizer) { }
   ngOnInit() {
     var curObj = this;
     this.apiCallerService.commonGetforOpenApi("/api/blog/fetchall/").subscribe(
@@ -35,7 +35,7 @@ export class BlogCardComponent implements OnInit {
           curObj.blogCardList.push({
             blgImgSrc: this.blgImgSrc == "" || this.blgImgSrc == undefined ? "/assets/images/default-image.jpg" : this.blgImgSrc,
             title: this.title,
-            blogPic: this.blogPic,
+            blogPic: curObj.sanitizer.bypassSecurityTrustUrl(this.blogPic),
             createdDate: moment(this.createdDate, moment.ISO_8601).format('MM/DD/YYYY'),
             previewText: this.previewText,
             user: this.username,
@@ -46,7 +46,7 @@ export class BlogCardComponent implements OnInit {
         });
       },
       (err) => {
-        debugger;
+       alert(err);
       })
 
   }

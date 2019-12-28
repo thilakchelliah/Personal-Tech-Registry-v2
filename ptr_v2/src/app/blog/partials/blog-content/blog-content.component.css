@@ -1,3 +1,7 @@
+.blog-content {
+    margin: 10px auto 10px auto;
+}
+
 .b-r-1-d {
     border-right: 1px dotted #777777;
 }
@@ -18,10 +22,7 @@
     color: #009EFF;
 }
 
-
-
 .blog-wrapper {
-    padding-right: 25px;
     font-family: 'Open Sans Condensed', sans-serif;
 }
 

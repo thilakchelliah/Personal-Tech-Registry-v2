@@ -16,13 +16,6 @@ export class BlogManagerService {
   DeleteBlogRow = function (id: string) {
     return this.http.post(this.apiUrl + '/apiS/Blog/Delete', id);
   };
-  FetchBlogDetails = function(urlId:string) {
-    var config = {
-        params: {
-            urlId: urlId
-        }
-    };
-    return this.http.get(this.apiUrl +'/api/Blog/FetchOne', config);
-};
+
 
 }

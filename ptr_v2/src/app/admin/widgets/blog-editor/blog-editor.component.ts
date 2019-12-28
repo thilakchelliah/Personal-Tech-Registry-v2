@@ -55,7 +55,7 @@ export class BlogEditorComponent implements OnInit {
           label: "Ok",
           className: 'btn-info',
           callback: function () {
-            $('#summernote').summernote('reset');
+          
           }
         }
       }
@@ -67,6 +67,7 @@ export class BlogEditorComponent implements OnInit {
         this.previewText = "";
         this.tagger.deleteAllTags();
         this.bmc.refreshGrid();
+        $('#summernote').summernote('reset');
       },
       err => {
 
@@ -86,7 +87,7 @@ export class BlogEditorComponent implements OnInit {
         var canvas = document.createElement("canvas");
         var context = canvas.getContext("2d");
 
-        if (img.height > 400) {
+        if (img.height > 700) {
           canvas.width = img.width / 10;
           canvas.height = img.height / 10;
         } else {

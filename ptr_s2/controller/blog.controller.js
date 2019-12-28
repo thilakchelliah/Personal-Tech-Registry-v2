@@ -1,23 +1,38 @@
 var mongoose = require('mongoose'),
-    BlogPost = mongoose.model('BlogPost');
+    BlogPost = mongoose.model('BlogPost'),
+    Jimp = require('jimp');
 
-exports.AddBlogPost = function (req, res) {
+exports.AddBlogPost = async function (req, res) {
     if (!req.body.title) {
         res.status(400).send({ message: "Title cannot be Empty" });
     }
     else {
+        var imgData = "";
+        if (req.body.blogPic.indexOf(',') != -1 && req.body.blogPic.indexOf('png') != -1) {
+            let base64ImgData = req.body.blogPic.split(",")[1];
+            let buffer = await new Buffer(base64ImgData, 'base64');
+            let image = await Jimp.read(buffer);
+            image.resize(700, 400);
+            image.quality(60);
+            imgData = await image.getBase64Async(Jimp.MIME_PNG);
+            console.log(imgData);
+        }
+        else {
+            imgData = req.body.blogPic;
+        }
+
         var BlogPostData = new BlogPost({
             title: req.body.title,
             htmlString: req.body.htmlContent,
             user: req.body.userId,
-            blogPic: req.body.blogPic,
+            blogPic: imgData,
             tagData: req.body.tagData,
             urlId: (new Date().valueOf()).toString(36),
             previewText: req.body.previewText,
             createdDate: new Date().toDateString(),
             updatedDate: new Date().toDateString()
         });
-
+        console.log(BlogPostData);
         BlogPostData.save(function (err, data) {
             console.log(data);
             if (err) {

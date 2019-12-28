@@ -6,9 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { LoaderComponent } from './widgets/loader/loader.component';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 import { DisqusCommentComponent } from './widgets/disqus-comment/disqus-comment.component';
+import { BlogPostFullComponent } from './widgets/blog-post-full/blog-post-full.component';
+import { SanitizeURLPipe } from './pipes/sanitize-url.pipe';
 
 @NgModule({
-  declarations: [GridComponent, TaggerComponent,LoaderComponent, SanitizeHtmlPipe, DisqusCommentComponent ],
+  declarations: [GridComponent, TaggerComponent, LoaderComponent, SanitizeHtmlPipe, DisqusCommentComponent, BlogPostFullComponent, SanitizeURLPipe],
   imports: [
     CommonModule,
     FormsModule
@@ -18,7 +20,9 @@ import { DisqusCommentComponent } from './widgets/disqus-comment/disqus-comment.
     TaggerComponent,
     LoaderComponent,
     DisqusCommentComponent,
-    SanitizeHtmlPipe
-  ]
+    SanitizeHtmlPipe,
+    BlogPostFullComponent
+  ],
+  entryComponents: [BlogPostFullComponent],
 })
 export class SharedModule { }
