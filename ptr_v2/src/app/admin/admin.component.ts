@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,OnChanges} from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './service/authentication.service'
 
@@ -10,7 +10,7 @@ import { AuthenticationService } from './service/authentication.service'
 export class AdminComponent implements OnInit {
 
   constructor(private router: Router, private authenticationService: AuthenticationService) { }
-
+ 
   ngOnInit() {
     const curObj = localStorage.getItem('currentUser');
     let authToken = JSON.parse(curObj);
